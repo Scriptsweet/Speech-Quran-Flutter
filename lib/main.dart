@@ -45,14 +45,20 @@ class HomePage extends StatelessWidget {
           bool isRecording = await record.isRecording();
           if (await record.hasPermission()) {
             if (isRecording) {
+              Fluttertoast.showToast(
+                msg: "Recording Stop", // message
+                toastLength: Toast.LENGTH_LONG, // length
+                gravity: ToastGravity.BOTTOM, // location
+                timeInSecForIosWeb: 1, // duration
+              );
               await record.stop();
             } else {
               Fluttertoast.showToast(
-                  msg: "This is a Toast message", // message
-                  toastLength: Toast.LENGTH_SHORT, // length
-                  gravity: ToastGravity.CENTER, // location
-                  timeInSecForIosWeb: 1 // duration
-                  );
+                msg: "Recording Start", // message
+                toastLength: Toast.LENGTH_LONG, // length
+                gravity: ToastGravity.BOTTOM, // location
+                timeInSecForIosWeb: 1, // duration
+              );
               await record.start(
                 path: '/data/data/com.example.speechquran/app_flutter/data',
                 encoder: AudioEncoder.aacLc, // by default
