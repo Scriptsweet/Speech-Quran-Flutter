@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:record/record.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,17 +31,31 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final record = Record();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         //Floating action button on Scaffold
-        onPressed: () {
-          //code to execute on button press
+        onPressed: () async {
+          bool isRecording = await record.isRecording();
+          if (await record.hasPermission()) {
+            if (isRecording) {
+              await record.stop();
+            } else {
+              await record.start(
+                path: '/data/data/com.example.speechquran/app_flutter/data',
+                encoder: AudioEncoder.aacLc, // by default
+                bitRate: 128000, // by default
+                samplingRate: 44100, // by default
+              );
+            }
+          }
         },
-        child: Icon(Icons.mic), //icon inside button
+        child: const Icon(Icons.mic), //icon inside button
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -49,7 +64,7 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         //bottom navigation bar on scaffold
         color: Colors.redAccent,
-        shape: CircularNotchedRectangle(), //shape of notch
+        shape: const CircularNotchedRectangle(), //shape of notch
         notchMargin:
             5, //notche margin between floating button and bottom appbar
         child: Row(
@@ -58,18 +73,20 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.menu,
                 color: Colors.white,
               ),
               onPressed: () {},
             ),
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.people,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                await record.stop();
+              },
             ),
           ],
         ),
