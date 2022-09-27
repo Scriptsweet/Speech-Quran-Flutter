@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:record/record.dart';
 
 void main() {
@@ -46,6 +47,12 @@ class HomePage extends StatelessWidget {
             if (isRecording) {
               await record.stop();
             } else {
+              Fluttertoast.showToast(
+                  msg: "This is a Toast message", // message
+                  toastLength: Toast.LENGTH_SHORT, // length
+                  gravity: ToastGravity.CENTER, // location
+                  timeInSecForIosWeb: 1 // duration
+                  );
               await record.start(
                 path: '/data/data/com.example.speechquran/app_flutter/data',
                 encoder: AudioEncoder.aacLc, // by default
