@@ -97,9 +97,7 @@ class HomePage extends StatelessWidget {
                 Icons.people,
                 color: Colors.white,
               ),
-              onPressed: () async {
-                await record.stop();
-              },
+              onPressed: () {},
             ),
           ],
         ),
